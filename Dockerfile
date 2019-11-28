@@ -78,7 +78,7 @@ RUN set -ex \
     && git clone https://github.com/Semmle/ql /usr/local/airflow/codeql-home/codeql-repo \
     && wget -P /usr/local/airflow https://github.com/github/codeql-cli-binaries/releases/download/v2.0.0/codeql.zip \
     && unzip -o /usr/local/airflow/codeql.zip -d /usr/local/airflow/codeql-home && rm /usr/local/airflow/codeql.zip \
-    && ln -s /usr/local/airflow/codeql-home/codeql/codeql /usr/bin \
+    && ln -s /usr/local/airflow/codeql-home/codeql/codeql /usr/bin
 
 COPY script/entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
