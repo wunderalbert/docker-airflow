@@ -1,3 +1,4 @@
+# LocalExecutor
 version: '2.1'
 services:
     postgres:
@@ -8,17 +9,28 @@ services:
             - POSTGRES_DB=airflow
 
     webserver:
-        image: annarailton/airflow_codeql:v1
+        image: annarailton/airflow-codeql-js-py
         restart: always
         depends_on:
             - postgres
         environment:
             - LOAD_EX=n
             - EXECUTOR=Local
+            # the following will override defaults in airflow.cfg
+            # so we can run `airflow` commands later
+            - POSTGRES_HOST=postgres
+            - POSTGRES_PORT=5432
+            - POSTGRES_PASSWORD=airflow
+            - POSTGRES_DB=airflow
+            - AIRFLOW__CORE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres:5432/airflow
+            - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+            - AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION=False
+            - AIRFLOW__WEBSERVER__DAG_ORIENTATION=TB
+            - AIRFLOW__WEBSERVER__DAG_DEFAULT_VIEW=graph
         volumes:
             - ./dags:/usr/local/airflow/dags
-            # Uncomment to include custom plugins
-            # - ./plugins:/usr/local/airflow/plugins
+            - ./ql:/usr/local/airflow/ql
+            - ./data:/usr/local/airflow/data
         ports:
             - "8081:8080"
         command: webserver
