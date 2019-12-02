@@ -4,8 +4,7 @@
 # BUILD: docker build --rm -t puckel/docker-airflow .
 # SOURCE: https://github.com/puckel/docker-airflow
 
-FROM python:3.7-slim-stretch
-LABEL maintainer="Puckel_"
+FROM annarailton/node-lts-python3.7-slim-codeql
 
 # Never prompts the user for choices on installation/configuration of packages
 ENV DEBIAN_FRONTEND noninteractive
@@ -33,7 +32,6 @@ RUN set -ex \
         libssl-dev \
         libffi-dev \
         libpq-dev \
-        git \
     ' \
     && apt-get update -yqq \
     && apt-get upgrade -yqq \
@@ -68,17 +66,7 @@ RUN set -ex \
         /var/tmp/* \
         /usr/share/man \
         /usr/share/doc \
-        /usr/share/doc-base \
-
-    # Stuff for codeql
-    && pip install packaging virtualenv \
-    && apt-get update \
-    && apt-get install -y wget unzip git curl nodejs zip\
-    && mkdir /usr/local/airflow/codeql-home \
-    && git clone https://github.com/Semmle/ql /usr/local/airflow/codeql-home/codeql-repo \
-    && wget -P /usr/local/airflow https://github.com/github/codeql-cli-binaries/releases/download/v2.0.0/codeql.zip \
-    && unzip -o /usr/local/airflow/codeql.zip -d /usr/local/airflow/codeql-home && rm /usr/local/airflow/codeql.zip \
-    && ln -s /usr/local/airflow/codeql-home/codeql/codeql /usr/bin
+        /usr/share/doc-base
 
 COPY script/entrypoint.sh /entrypoint.sh
 COPY config/airflow.cfg ${AIRFLOW_USER_HOME}/airflow.cfg
