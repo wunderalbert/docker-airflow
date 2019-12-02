@@ -40,15 +40,9 @@ By default, docker-airflow runs Airflow with **SequentialExecutor** :
 ```bash
 docker run -d -p 8081:8080 annarailton/airflow-codeql-js-py webserver
 ```
-If you want to run another executor, use the other docker-compose.yml files provided in this repository.
+If you want to run with `LocalExecutor` (recommended as then you get a proper database behind it), do 
 
-For **LocalExecutor** :
 ```bash
-docker-compose -f docker-compose-LocalExecutor.yml up -d
+docker-compose up -d
 ```
-For **CeleryExecutor** :
-```bash
-docker-compose -f docker-compose-CeleryExecutor.yml up -d
-```
-
 For other instructions, see the [original repo](https://github.com/puckel/docker-airflow) for this fork.
