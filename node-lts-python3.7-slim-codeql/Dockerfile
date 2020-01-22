@@ -1,6 +1,6 @@
 # AUTHOR: Anna Railton
 # DESCRIPTION: Container to use codeQL to build JavaScript and Python projects
-# BUILD: docker build --rm -t puckel/docker-airflow .
+# BUILD: docker build --rm -t annarailton/node-lts-python3.7-slim-codeql .
 # SOURCE: https://github.com/puckel/docker-airflow
 
 FROM annarailton/node-lts-python3.7-slim
